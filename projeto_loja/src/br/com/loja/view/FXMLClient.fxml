@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="613.0" maxWidth="781.0" minHeight="496.0" minWidth="469.0" prefHeight="613.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="669.0" maxWidth="781.0" minHeight="496.0" minWidth="469.0" prefHeight="669.0" prefWidth="781.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.loja.controller.FXMLClientController">
    <children>
       <Pane prefHeight="65.0" prefWidth="769.0" styleClass="title_anchorpane">
          <children>
@@ -31,79 +31,86 @@
             </Label>
          </children>
       </Pane>
-      <TabPane prefHeight="488.0" prefWidth="781.0" styleClass="pane_color" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="537.0" prefWidth="781.0" styleClass="pane_color" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabRegisterClient" text="Cadastro de Clientes">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="781.0" style="-fx-background-color: #FFFFFF;">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="781.0" style="-fx-background-color: #FFFFFF;">
                      <children>
-                        <Label fx:id="lblCpf" contentDisplay="TOP" layoutX="123.0" layoutY="107.0" text="CPF:">
+                        <Label fx:id="lblCpf" contentDisplay="TOP" layoutX="122.0" layoutY="153.0" text="CPF:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="437.0" layoutY="107.0" prefHeight="20.0" prefWidth="35.0" text="RG:">
+                        <Label layoutX="436.0" layoutY="153.0" prefHeight="20.0" prefWidth="35.0" text="RG:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblDateOfBirth" layoutX="20.0" layoutY="144.0" text="Data de Nascimento:">
+                        <Label fx:id="lblDateOfBirth" layoutX="19.0" layoutY="190.0" text="Data de Nascimento:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblTelephone" layoutX="412.0" layoutY="251.0" text="Telefone:">
+                        <Label fx:id="lblTelephone" layoutX="413.0" layoutY="291.0" text="Telefone:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblName" alignment="BOTTOM_RIGHT" layoutX="108.0" layoutY="66.0" text="Nome:">
+                        <Label fx:id="lblName" alignment="BOTTOM_RIGHT" layoutX="107.0" layoutY="112.0" text="Nome:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblCellPhone" layoutX="107.0" layoutY="251.0" text="Celular:">
+                        <Label fx:id="lblCellPhone" layoutX="108.0" layoutY="291.0" text="Celular:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblGenre" layoutX="409.0" layoutY="145.0" text="Gênero:">
+                        <Label fx:id="lblGenre" layoutX="408.0" layoutY="191.0" text="Gênero:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblEmail" layoutX="114.0" layoutY="211.0" text="Email:">
+                        <Label fx:id="lblEmail" layoutX="115.0" layoutY="251.0" text="Email:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtName" layoutX="161.0" layoutY="61.0" prefHeight="30.0" prefWidth="408.0">
+                        <TextField fx:id="txtCode" disable="true" layoutX="159.0" layoutY="66.0" prefHeight="30.0" prefWidth="230.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtCpf" layoutX="161.0" layoutY="102.0" prefHeight="25.0" prefWidth="230.0">
+                        <TextField fx:id="txtName" layoutX="160.0" layoutY="107.0" prefHeight="30.0" prefWidth="408.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtRg" layoutX="469.0" layoutY="103.0" prefHeight="25.0" prefWidth="252.0">
+                        <Button fx:id="btnSearchClientByName" layoutX="582.0" layoutY="107.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Buscar">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" styleClass="button_color">
+                                 <image>
+                                    <Image url="@../images/search_icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <TextField fx:id="txtCpf" layoutX="160.0" layoutY="148.0" onKeyReleased="#addMaskTxtCpfKeyReleased" prefHeight="25.0" prefWidth="230.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtCellPhone" layoutX="160.0" layoutY="245.0" prefHeight="25.0" prefWidth="230.0">
+                        <TextField fx:id="txtRg" layoutX="468.0" layoutY="149.0" prefHeight="25.0" prefWidth="252.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtTelephone" layoutX="479.0" layoutY="245.0" prefHeight="25.0" prefWidth="240.0">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <DatePicker fx:id="cbmDateOfBith" layoutX="161.0" layoutY="140.0" prefHeight="28.0" prefWidth="230.0" />
-                        <RadioButton fx:id="btnGenreMale" layoutX="501.0" layoutY="146.0" mnemonicParsing="false" selected="true" text="Masculino">
+                        <DatePicker fx:id="cbmDateOfBith" layoutX="160.0" layoutY="186.0" prefHeight="28.0" prefWidth="230.0" />
+                        <RadioButton fx:id="btnGenreMale" layoutX="500.0" layoutY="192.0" mnemonicParsing="false" selected="true" text="Masculino">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -111,85 +118,69 @@
                               <ToggleGroup fx:id="groupGenre" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="btnGenreFeminine" layoutX="606.0" layoutY="146.0" mnemonicParsing="false" text="Feminino" toggleGroup="$groupGenre">
+                        <RadioButton fx:id="btnGenreFeminine" layoutX="605.0" layoutY="192.0" mnemonicParsing="false" text="Feminino" toggleGroup="$groupGenre">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </RadioButton>
-                        <Separator layoutY="190.0" prefHeight="0.0" prefWidth="781.0" />
-                        <TextField fx:id="txtEmail" layoutX="159.0" layoutY="206.0" prefHeight="25.0" prefWidth="322.0">
+                        <TextField fx:id="txtEmail" layoutX="160.0" layoutY="246.0" prefHeight="25.0" prefWidth="322.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <Separator layoutY="284.0" prefHeight="0.0" prefWidth="781.0" />
-                        <Label fx:id="lblStreet" layoutX="118.0" layoutY="341.0" text="Rua:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblDistrict" layoutX="107.0" layoutY="381.0" text="Bairro:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblCity" layoutX="100.0" layoutY="419.0" text="Cidade:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblZipCode" layoutX="118.0" layoutY="303.0" text="CEP:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblNumber" layoutX="545.0" layoutY="337.0" text="Número:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblState" layoutX="515.0" layoutY="419.0" text="Estado:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblComplement" layoutX="470.0" layoutY="378.0" text="Complemento:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtZipCode" layoutX="158.0" layoutY="298.0" prefHeight="30.0" prefWidth="278.0">
+                        <TextField fx:id="txtCellPhone" layoutX="161.0" layoutY="285.0" onKeyReleased="#addMaskTxtCellPhoneKeyReleased" prefHeight="25.0" prefWidth="230.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtStreet" layoutX="159.0" layoutY="337.0" prefHeight="25.0" prefWidth="370.0">
+                        <TextField fx:id="txtTelephone" layoutX="480.0" layoutY="285.0" onKeyReleased="#addMaskTxtTelephoneKeyReleased" prefHeight="25.0" prefWidth="240.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtNumber" layoutX="612.0" layoutY="336.0" prefHeight="25.0" prefWidth="104.0">
+                        <Separator layoutX="1.0" layoutY="230.0" prefHeight="0.0" prefWidth="781.0" />
+                        <Separator layoutY="329.0" prefHeight="0.0" prefWidth="781.0" />
+                        <Label fx:id="lblStreet" layoutX="118.0" layoutY="386.0" text="Rua:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblDistrict" layoutX="107.0" layoutY="426.0" text="Bairro:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblCity" layoutX="100.0" layoutY="464.0" text="Cidade:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblZipCode" layoutX="118.0" layoutY="348.0" text="CEP:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblNumber" layoutX="545.0" layoutY="382.0" text="Número:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblState" layoutX="515.0" layoutY="464.0" text="Estado:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblComplement" layoutX="470.0" layoutY="423.0" text="Complemento:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtZipCode" layoutX="158.0" layoutY="343.0" onKeyReleased="#addMaskTxtZipCodeKeyReleased" prefHeight="30.0" prefWidth="278.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtDistrict" layoutX="159.0" layoutY="376.0" prefHeight="30.0" prefWidth="293.0">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="txtComplement" layoutX="572.0" layoutY="375.0" prefHeight="25.0" prefWidth="145.0">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="txtCity" layoutX="159.0" layoutY="416.0" prefHeight="30.0" prefWidth="294.0">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <ComboBox fx:id="cbmState" layoutX="573.0" layoutY="417.0" prefHeight="28.0" prefWidth="147.0" promptText="Selecione ..." styleClass="button_color" />
-                        <Button fx:id="btnSearchZipCode" layoutX="451.0" layoutY="298.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" styleClass="button_color" text="Buscar">
+                        <Button fx:id="btnSearchZipCode" layoutX="451.0" layoutY="343.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Buscar">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -201,28 +192,46 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <TextField fx:id="txtCode" disable="true" layoutX="160.0" layoutY="20.0" prefHeight="30.0" prefWidth="230.0">
+                        <TextField fx:id="txtStreet" layoutX="159.0" layoutY="382.0" prefHeight="25.0" prefWidth="370.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <Label fx:id="lblCode" alignment="BOTTOM_RIGHT" layoutX="102.0" layoutY="25.0" text="Código:">
+                        <TextField fx:id="txtNumber" layoutX="612.0" layoutY="381.0" prefHeight="25.0" prefWidth="104.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtDistrict" layoutX="159.0" layoutY="421.0" prefHeight="30.0" prefWidth="293.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtComplement" layoutX="572.0" layoutY="420.0" prefHeight="25.0" prefWidth="145.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtCity" layoutX="159.0" layoutY="461.0" prefHeight="30.0" prefWidth="294.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <ComboBox fx:id="cbmState" layoutX="573.0" layoutY="462.0" prefHeight="28.0" prefWidth="147.0" promptText="Selecione ..." />
+                        <Label fx:id="lblCode" alignment="BOTTOM_RIGHT" layoutX="101.0" layoutY="71.0" text="Código:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btnSearchClientByName" layoutX="583.0" layoutY="61.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" styleClass="button_color" text="Buscar">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" styleClass="button_color">
-                                 <image>
-                                    <Image url="@../images/search_icon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
+                        <Pane fx:id="paneAlertRegisterClient" layoutX="-7.0" prefHeight="50.0" prefWidth="795.0">
+                           <children>
+                              <Label fx:id="lblAlertRegisterClient" layoutX="228.0" layoutY="15.0" text="Preencha os campos a seguir para cadastrar um novo cliente:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
             </content>
@@ -231,18 +240,18 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="781.0">
                      <children>
-                        <TextField fx:id="txtSearchList" layoutX="128.0" layoutY="14.0" prefHeight="30.0" prefWidth="334.0">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <Label fx:id="lblSearchList" layoutX="73.0" layoutY="19.0" text="Buscar:">
+                        <Label fx:id="lblSearchList" layoutX="72.0" layoutY="68.0" text="Buscar:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="cbmOptionOfSearch" layoutX="476.0" layoutY="15.0" prefHeight="28.0" prefWidth="124.0" promptText="Por Nome" styleClass="button_color" />
-                        <Button fx:id="btnSerachList" layoutX="614.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="111.0" styleClass="button_color" text="Buscar">
+                        <TextField fx:id="txtSearchList" layoutX="127.0" layoutY="63.0" prefHeight="30.0" prefWidth="334.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <ComboBox fx:id="cbmOptionOfSearch" layoutX="475.0" layoutY="64.0" prefHeight="28.0" prefWidth="124.0" promptText="Por Nome" />
+                        <Button fx:id="btnSerachList" layoutX="613.0" layoutY="63.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="111.0" text="Buscar">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -254,7 +263,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <TableView fx:id="tblClient" layoutX="14.0" layoutY="71.0" prefHeight="362.0" prefWidth="754.0">
+                        <TableView fx:id="tblClient" layoutX="13.0" layoutY="115.0" prefHeight="367.0" prefWidth="754.0">
                           <columns>
                             <TableColumn fx:id="clmCode" prefWidth="75.0" text="Código" />
                             <TableColumn fx:id="clmName" prefWidth="75.0" text="Nome" />
@@ -267,18 +276,27 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <Separator layoutX="-8.0" layoutY="55.0" prefHeight="0.0" prefWidth="790.0" />
+                        <Separator layoutX="-4.0" layoutY="99.0" prefHeight="0.0" prefWidth="790.0" />
+                        <Pane fx:id="paneAlertSearchClient" prefHeight="50.0" prefWidth="795.0">
+                           <children>
+                              <Label fx:id="lblMsgSearchClient" layoutX="215.0" layoutY="15.0" text="Preencha os campos a seguir para pesquisar um cliente:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
         </tabs>
       </TabPane>
-      <AnchorPane prefHeight="68.0" prefWidth="781.0" styleClass="pane_color">
+      <AnchorPane prefHeight="77.0" prefWidth="781.0" styleClass="pane_color">
          <children>
-            <Group layoutX="187.0" layoutY="18.0">
+            <Group layoutX="187.0" layoutY="19.0">
                <children>
-                  <Button fx:id="btnNewClient" layoutX="315.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" styleClass="button_color" text="Novo">
+                  <Button fx:id="btnNewClient" layoutX="315.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Novo">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -290,7 +308,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnSaveClient" layoutX="207.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" styleClass="button_color" text="Salvar">
+                  <Button fx:id="btnSaveClient" layoutX="207.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Salvar">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -302,7 +320,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnEditClient" layoutX="104.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" styleClass="button_color" text="Editar">
+                  <Button fx:id="btnEditClient" layoutX="104.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Editar">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -314,7 +332,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnDeleteClient" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" styleClass="button_color" text="Excluir">
+                  <Button fx:id="btnDeleteClient" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Excluir">
                      <font>
                         <Font size="14.0" />
                      </font>

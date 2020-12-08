@@ -1,4 +1,8 @@
-.button_color{
+.anchor-pane{
+    -fx-background-color: #FFFFFF;
+}
+
+.button{
     -fx-background-color: #C2C0C0;
 }
 
@@ -6,10 +10,18 @@
     -fx-cursor:hand;
 }
 
-.pane_color{
+.pane{
     -fx-background-color: #FFFFFF;
 }
 
 .title_anchorpane{
     -fx-background-color:  #CC0000;
+}
+
+.combo-box{
+    -fx-background-color: #C2C0C0;
+}
+
+.date-picker{
+    -fx-background-color: #C2C0C0;
 }
