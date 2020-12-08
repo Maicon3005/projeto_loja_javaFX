@@ -1,0 +1,15 @@
+.button_color{
+    -fx-background-color: #C2C0C0;
+}
+
+.button:hover{
+    -fx-cursor:hand;
+}
+
+.pane_color{
+    -fx-background-color: #FFFFFF;
+}
+
+.title_anchorpane{
+    -fx-background-color:  #CC0000;
+}
