@@ -12,6 +12,10 @@ import br.com.loja.utilities.TextFieldFormatter;
 import br.com.loja.utilities.ZipCodeSearch;
 import br.com.loja.validation.Validate;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -28,7 +32,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javax.swing.border.LineBorder;
 
 /**
  * FXML Controller class
@@ -37,7 +45,7 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLClientController implements Initializable {
 
-    //FX components
+    //FX components ************************************************************
     @FXML
     private Tab tabRegisterClient;
     @FXML
@@ -151,22 +159,49 @@ public class FXMLClientController implements Initializable {
     @FXML
     private Button btnDeleteClient;
 
-    //Variable
-    private ClientModel clientModel;
-    /**
-     * Initializes the controller class.
-     */
+    //Variable *****************************************************************
+    private String borderColorGray = "-fx-border-color: #C2C0C0;";
+    private String borderColorRed = "-fx-border-color: #FF0000;";
+    private String backgroundColorGreen = "-fx-background-color: #47B071;";
+    private String backgroundColorRed = "-fx-background-color: #FF0000;";
+    private boolean flag = true;
+
+    //initializa controller ****************************************************
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cbmStateFill();
     }
 
-    //Masking
+    //CRUD *********************************************************************
+    @FXML
+    public void saveClient() {
+        validateClient();
+        validateContact();
+        validateAddress();
+
+        if (flag) {
+            alertPane(flag, "Cliente salvo com Sucesso!");
+        } else {
+            alertPane(flag, "Por favor, preencha os campos do formulário!");
+        }
+
+        flag = true;
+    }
+
+    //Masking ******************************************************************
     @FXML
     public void addMaskTxtCpfKeyReleased() {
         TextFieldFormatter tff = new TextFieldFormatter();
         tff.setMask("###.###.###-##");
         tff.setTf(txtCpf);
+        tff.formatter();
+    }
+
+    @FXML
+    public void addMaskTxtRgKeyReleased() {
+        TextFieldFormatter tff = new TextFieldFormatter();
+        tff.setMask("##.###.###-#");
+        tff.setTf(txtRg);
         tff.formatter();
     }
 
@@ -194,7 +229,7 @@ public class FXMLClientController implements Initializable {
         tff.formatter();
     }
 
-    //Fill state combobox
+    //Fill state combobox ******************************************************
     @FXML
     public void cbmStateFill() {
         List<String> listStates = StateList.getInstance().getAllStates();
@@ -203,7 +238,7 @@ public class FXMLClientController implements Initializable {
         cbmState.setItems(observableStates);
     }
 
-    //Address auto-fill
+    //Address auto-fill ********************************************************
     @FXML
     public void zipCodeAutoFill() {
         String zipCode = txtZipCode.getText();
@@ -216,9 +251,131 @@ public class FXMLClientController implements Initializable {
         cbmState.getSelectionModel().select(addressModel.getState());
     }
 
-    //validation
+    // validate client *********************************************************
     @FXML
     public void validateClient() {
-       
+        String nameClient, cpfClient, rgClient;
+        LocalDate dateClient;
+
+        if (Validate.getInstance().validateName(txtName.getText())) {
+            nameClient = txtName.getText();
+            txtName.setStyle(borderColorGray);
+        } else {
+            txtName.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateCpf(txtCpf.getText())) {
+            cpfClient = txtCpf.getText();
+            txtCpf.setStyle(borderColorGray);
+        } else {
+            txtCpf.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateRg(txtRg.getText())) {
+            rgClient = txtRg.getText();
+            txtRg.setStyle(borderColorGray);
+        } else {
+            txtRg.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateDate(String.valueOf(cbmDateOfBith.getValue()))) {
+            dateClient = cbmDateOfBith.getValue();
+            cbmDateOfBith.setStyle(borderColorGray);
+        } else {
+            cbmDateOfBith.setStyle(borderColorRed);
+            flag = false;
+        }
+    }
+
+    //validate contact *********************************************************
+    @FXML
+    public void validateContact() {
+        String emailContact, cellPhoneContact, telephoneContact;
+
+        if (Validate.getInstance().validateEmail(txtEmail.getText())) {
+            emailContact = txtEmail.getText();
+            txtEmail.setStyle(borderColorGray);
+        } else {
+            txtEmail.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateCellPhone(txtCellPhone.getText())) {
+            cellPhoneContact = txtCellPhone.getText();
+            txtCellPhone.setStyle(borderColorGray);
+        } else {
+            txtCellPhone.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateTelephone(txtTelephone.getText())) {
+            telephoneContact = txtTelephone.getText();
+            txtTelephone.setStyle(borderColorGray);
+        } else {
+            txtTelephone.setStyle(borderColorRed);
+            flag = false;
+        }
+    }
+
+    //validate adress **********************************************************
+    @FXML
+    public void validateAddress() {
+        String zipCodeAddress, streetAddress, districtAddress, cityAddress, stateAddress, complementAddress;
+        int numberAddress;
+
+        if (Validate.getInstance().validateZipCode(txtZipCode.getText())) {
+            zipCodeAddress = txtZipCode.getText();
+            txtZipCode.setStyle(borderColorGray);
+        } else {
+            txtZipCode.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateText(txtStreet.getText())) {
+            streetAddress = txtStreet.getText();
+            txtStreet.setStyle(borderColorGray);
+        } else {
+            txtStreet.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateText(txtDistrict.getText())) {
+            districtAddress = txtDistrict.getText();
+            txtDistrict.setStyle(borderColorGray);
+        } else {
+            txtDistrict.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateText(txtCity.getText())) {
+            cityAddress = txtCity.getText();
+            txtCity.setStyle(borderColorGray);
+        } else {
+            txtCity.setStyle(borderColorRed);
+            flag = false;
+        }
+
+        if (Validate.getInstance().validateNumber(txtNumber.getText())) {
+            numberAddress = Integer.parseInt(txtNumber.getText());
+            txtNumber.setStyle(borderColorGray);
+        } else {
+            txtNumber.setStyle(borderColorRed);
+            flag = false;
+        }
+    }
+
+    //alert pane ***************************************************************
+    public void alertPane(boolean check, String message) {
+        if (check) {
+            paneAlertRegisterClient.setStyle(backgroundColorGreen);
+            lblAlertRegisterClient.setText(message);
+
+        } else {
+            paneAlertRegisterClient.setStyle(backgroundColorRed);
+            lblAlertRegisterClient.setText(message);
+        }
     }
 }
