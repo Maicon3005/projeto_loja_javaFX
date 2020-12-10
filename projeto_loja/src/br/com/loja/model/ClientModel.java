@@ -11,13 +11,15 @@ import java.util.Date;
  *
  * @author maico
  */
-public class Client extends Pessoa{
+public class ClientModel extends PersonModel{
 
-    public Client() {
+    public ClientModel() {
     }
 
-    public Client(String name, String cpf, String rg, Date dataOfBirth, String cellPhone, String telephone, char gender, Address address) {
-        super(name, cpf, rg, dataOfBirth, cellPhone, telephone, gender, address);
+    public ClientModel(String name, String cpf, String rg, Date dataOfBirth, char gender, AddressModel address, ContactModel contact) {
+        super(name, cpf, rg, dataOfBirth, gender, address, contact);
     }
+
+    
     
 }

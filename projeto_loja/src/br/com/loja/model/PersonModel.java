@@ -6,30 +6,36 @@ import java.util.Date;
  *
  * @author maico
  */
-public abstract class Pessoa {
+public abstract class PersonModel {
 
+    private int id;
     private String name;
     private String cpf;
     private String rg;
     private Date dataOfBirth;
-    private String email;
-    private String cellPhone;
-    private String telephone;
     private char gender;
-    private Address address;
+    private AddressModel address;
+    private ContactModel contact;
 
-    public Pessoa() {
+    public PersonModel() {
     }
 
-    public Pessoa(String name, String cpf, String rg, Date dataOfBirth, String cellPhone, String telephone, char gender,Address address) {
+    public PersonModel(String name, String cpf, String rg, Date dataOfBirth, char gender, AddressModel address, ContactModel contact) {
         this.name = name;
         this.cpf = cpf;
         this.rg = rg;
         this.dataOfBirth = dataOfBirth;
-        this.cellPhone = cellPhone;
-        this.telephone = telephone;
         this.gender = gender;
         this.address = address;
+        this.contact = contact;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,30 +70,6 @@ public abstract class Pessoa {
         this.dataOfBirth = dataOfBirth;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCellPhone() {
-        return cellPhone;
-    }
-
-    public void setCellPhone(String cellPhone) {
-        this.cellPhone = cellPhone;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
     public char getGender() {
         return gender;
     }
@@ -96,13 +78,20 @@ public abstract class Pessoa {
         this.gender = gender;
     }
 
-    public Address getEndereco() {
+    public AddressModel getAddress() {
         return address;
     }
 
-    public void setEndereco(Address address) {
+    public void setAddress(AddressModel address) {
         this.address = address;
     }
 
-    
+    public ContactModel getContact() {
+        return contact;
+    }
+
+    public void setContact(ContactModel contact) {
+        this.contact = contact;
+    }
+
 }

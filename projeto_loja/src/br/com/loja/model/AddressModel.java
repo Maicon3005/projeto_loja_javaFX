@@ -4,8 +4,9 @@ package br.com.loja.model;
  *
  * @author maico
  */
-public class Address {
+public class AddressModel {
 
+    private int id;
     private String zipCode;
     private String street;
     private String districty;
@@ -14,10 +15,10 @@ public class Address {
     private String state;
     private String complement;
 
-    public Address() {
+    public AddressModel() {
     }
 
-    public Address(String zipCode, String street, String districty, String city, int number, String state, String complement) {
+    public AddressModel(String zipCode, String street, String districty, String city, int number, String state, String complement) {
         this.zipCode = zipCode;
         this.street = street;
         this.districty = districty;
@@ -25,6 +26,22 @@ public class Address {
         this.number = number;
         this.state = state;
         this.complement = complement;
+    }
+
+    public AddressModel(String street, String complement, String districty, String city, String state) {
+        this.street = street;
+        this.complement = complement;
+        this.districty = districty;
+        this.city = city;
+        this.state = state;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getZipCode() {
@@ -83,4 +100,8 @@ public class Address {
         this.complement = complement;
     }
 
+    @Override
+    public String toString() {
+        return "AddressModel{" + "id=" + id + ", zipCode=" + zipCode + ", street=" + street + ", districty=" + districty + ", city=" + city + ", number=" + number + ", state=" + state + ", complement=" + complement + '}';
+    }
 }

@@ -5,9 +5,16 @@ package br.com.loja.controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.loja.model.AddressModel;
+import br.com.loja.model.StateList;
 import br.com.loja.utilities.TextFieldFormatter;
+import br.com.loja.utilities.ZipCodeSearch;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,6 +36,7 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLClientController implements Initializable {
 
+    //FX components
     @FXML
     private Tab tabRegisterClient;
     @FXML
@@ -92,7 +100,7 @@ public class FXMLClientController implements Initializable {
     @FXML
     private TextField txtCity;
     @FXML
-    private ComboBox<?> cbmState;
+    private ComboBox<String> cbmState;
     @FXML
     private Button btnSearchZipCode;
     @FXML
@@ -142,12 +150,13 @@ public class FXMLClientController implements Initializable {
     @FXML
     private Button btnDeleteClient;
 
+    //Variable
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cbmStateFill();
     }
 
     @FXML
@@ -157,7 +166,7 @@ public class FXMLClientController implements Initializable {
         tff.setTf(txtCpf);
         tff.formatter();
     }
-    
+
     @FXML
     public void addMaskTxtZipCodeKeyReleased() {
         TextFieldFormatter tff = new TextFieldFormatter();
@@ -165,7 +174,7 @@ public class FXMLClientController implements Initializable {
         tff.setTf(txtZipCode);
         tff.formatter();
     }
-    
+
     @FXML
     public void addMaskTxtCellPhoneKeyReleased() {
         TextFieldFormatter tff = new TextFieldFormatter();
@@ -173,12 +182,33 @@ public class FXMLClientController implements Initializable {
         tff.setTf(txtCellPhone);
         tff.formatter();
     }
-    
+
     @FXML
     public void addMaskTxtTelephoneKeyReleased() {
         TextFieldFormatter tff = new TextFieldFormatter();
         tff.setMask("(##)####-####");
         tff.setTf(txtTelephone);
         tff.formatter();
+    }
+
+    @FXML
+    public void cbmStateFill() {
+        List<String> listStates = StateList.getInstance().getAllStates();
+        ObservableList<String> observableStates = FXCollections.observableArrayList(listStates);
+        cbmState.setPromptText(observableStates.get(0));
+        cbmState.setItems(observableStates);
+    }
+
+    @FXML
+    public void zipCodeAutoFill() {
+        String zipCode = txtZipCode.getText();
+        ZipCodeSearch zipCodeSearch = new ZipCodeSearch();
+        AddressModel addressModel = zipCodeSearch.buscarCep(zipCode);
+        txtStreet.setText(addressModel.getStreet());
+        txtComplement.setText(addressModel.getComplement());
+        txtDistrict.setText(addressModel.getDistricty());
+        txtCity.setText(addressModel.getCity());
+        cbmState.getSelectionModel().select(addressModel.getState());
+
     }
 }
