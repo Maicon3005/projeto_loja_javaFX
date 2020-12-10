@@ -6,11 +6,12 @@ package br.com.loja.controller;
  * and open the template in the editor.
  */
 import br.com.loja.model.AddressModel;
+import br.com.loja.model.ClientModel;
 import br.com.loja.model.StateList;
 import br.com.loja.utilities.TextFieldFormatter;
 import br.com.loja.utilities.ZipCodeSearch;
+import br.com.loja.validation.Validate;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -151,6 +152,7 @@ public class FXMLClientController implements Initializable {
     private Button btnDeleteClient;
 
     //Variable
+    private ClientModel clientModel;
     /**
      * Initializes the controller class.
      */
@@ -159,6 +161,7 @@ public class FXMLClientController implements Initializable {
         cbmStateFill();
     }
 
+    //Masking
     @FXML
     public void addMaskTxtCpfKeyReleased() {
         TextFieldFormatter tff = new TextFieldFormatter();
@@ -191,6 +194,7 @@ public class FXMLClientController implements Initializable {
         tff.formatter();
     }
 
+    //Fill state combobox
     @FXML
     public void cbmStateFill() {
         List<String> listStates = StateList.getInstance().getAllStates();
@@ -199,6 +203,7 @@ public class FXMLClientController implements Initializable {
         cbmState.setItems(observableStates);
     }
 
+    //Address auto-fill
     @FXML
     public void zipCodeAutoFill() {
         String zipCode = txtZipCode.getText();
@@ -209,6 +214,11 @@ public class FXMLClientController implements Initializable {
         txtDistrict.setText(addressModel.getDistricty());
         txtCity.setText(addressModel.getCity());
         cbmState.getSelectionModel().select(addressModel.getState());
+    }
 
+    //validation
+    @FXML
+    public void validateClient() {
+       
     }
 }

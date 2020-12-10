@@ -50,7 +50,6 @@ public final class StateList {
         this.listStates.add("SE");
         this.listStates.add("TO");
     }
-    // retrieve array from anywhere
 
     public List<String> getAllStates() {
         return this.listStates;
