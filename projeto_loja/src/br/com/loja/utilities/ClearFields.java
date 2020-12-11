@@ -5,24 +5,29 @@
  */
 package br.com.loja.utilities;
 
-import java.awt.Component;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
-/**
- *
- * @author Caio Duarte
- */
 public class ClearFields {
 
-    //metodo limparCampos
-    public void clearScreen(JPanel container) {
-        Component components[] = container.getComponents();
-        for (Component component : components) {
-            if (component instanceof JTextField) {
-                ((JTextField) component).setText(null);
-            }
+    private static ClearFields instance;
+
+    public static ClearFields getInstance() {
+        if (instance == null) {
+            instance = new ClearFields();
         }
+        return instance;
+    }
+
+    private ClearFields() {
+    }
+
+    public void clearScreen(AnchorPane anchorPane) {
+        ObservableList components = anchorPane.getChildren();
+        components.stream().filter((component) -> (component instanceof TextField)).forEachOrdered((component) -> {
+            ((TextField) component).setText(null);
+        });
     }
 
 }

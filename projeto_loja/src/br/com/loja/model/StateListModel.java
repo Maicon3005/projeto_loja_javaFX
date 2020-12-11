@@ -7,20 +7,20 @@ import java.util.List;
  *
  * @author maico
  */
-public final class StateList {
+public final class StateListModel {
 
-    private static StateList Instance;
+    private static StateListModel Instance;
     private List<String> listStates = null;
 
-    public static StateList getInstance() {
+    public static StateListModel getInstance() {
         if (Instance == null) {
-            Instance = new StateList();
+            Instance = new StateListModel();
         }
 
         return Instance;
     }
 
-    private StateList() {
+    private StateListModel() {
         listStates = new ArrayList<String>();
         this.listStates.add("AC");
         this.listStates.add("AL");
