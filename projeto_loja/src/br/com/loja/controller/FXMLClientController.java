@@ -5,16 +5,22 @@ package br.com.loja.controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.loja.DAO.ClientDAO;
 import br.com.loja.model.AddressModel;
 import br.com.loja.model.AlertPaneModel;
+import br.com.loja.model.ClientModel;
+import br.com.loja.model.ContactModel;
 import br.com.loja.model.StateListModel;
 import br.com.loja.utilities.ClearFields;
 import br.com.loja.utilities.TextFieldFormatter;
 import br.com.loja.utilities.ZipCodeSearch;
 import br.com.loja.validation.Validate;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,6 +37,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.hibernate.HibernateException;
 
 /**
  * FXML Controller class
@@ -156,20 +163,91 @@ public class FXMLClientController implements Initializable {
     private Button btnDeleteClient;
 
     //Variable *****************************************************************
+    private ClientModel clientModel;
+    private ContactModel contactModel;
+    private AddressModel addressModel;
+    private final ClientDAO clientDAO = new ClientDAO();
+
     //initializa controller ****************************************************
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient);
         cbmStateFill();
     }
 
     //CRUD *********************************************************************
+    // save client *************************************************************
     @FXML
-    public void saveClient() {
-        if (validateClient() & validateContact() & validateAddress()) {
-            AlertPaneModel.getInstance().setAlertPaneSuccess(paneAlertRegisterClient, lblAlertRegisterClient, "Cliente salvo com sucesso!");
+    public void btnSaveClientOnAction() {
+        if (validateClient() & validateAddress() & validateContact()) {
+            //contact model*****************************************************
+            String email = txtEmail.getText();
+            String cellPhone = txtCellPhone.getText();
+            String telephone = txtTelephone.getText();
+
+            contactModel = new ContactModel(email, cellPhone, telephone);
+
+            //address model*****************************************************
+            String zipCode = txtZipCode.getText();
+            String street = txtStreet.getText();
+            String district = txtDistrict.getText();
+            String city = txtCity.getText();
+            int number = Integer.parseInt(txtNumber.getText());
+            String state = cbmState.getValue();
+            String complement = txtComplement.getText();
+
+            addressModel = new AddressModel(zipCode, street, district, city, number, state, complement);
+
+            //client model******************************************************
+            String name = txtName.getText();
+            String cpf = txtCpf.getText();
+            String rg = txtRg.getText();
+            LocalDate date = cbmDateOfBith.getValue();
+            char genre = btnGenreMale.isSelected() ? 'm' : 'f';
+
+            clientModel = new ClientModel(name, cpf, rg, date, genre, addressModel, contactModel);
+
+            //save client*******************************************************
+            try {
+                Long idClient = clientDAO.SaveClient(clientModel);
+                txtCode.setText(String.valueOf(idClient));
+                AlertPaneModel.getInstance().setAlertPaneSuccess(paneAlertRegisterClient, lblAlertRegisterClient, "Cliente salvo com sucesso!");
+            } catch (HibernateException e) {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível salvar o cliente! \nErro: " + e);
+            } catch (Exception e) {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível salvar o cliente! \nErro: " + e);
+            }
         } else {
             AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, preencha os campos do formulário!");
         }
+    }
+
+    @FXML
+    public void btnSearchClientOnAction() {
+        if (Validate.getInstance().validateName(txtName)) {
+            String searchName = txtName.getText();
+            clientModel = new ClientModel();
+            clientModel = clientDAO.searchClientByName(searchName);
+            if (clientModel != null) {
+                txtCode.setText(String.valueOf(clientModel.getId()));
+                txtName.setText(clientModel.getName());
+                txtCpf.setText(clientModel.getCpf());
+                txtRg.setText(clientModel.getRg());
+                cbmDateOfBith.setValue(clientModel.getDateOfBirth());
+                txtEmail.setText(clientModel.getContact().getEmail());
+            } else {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "O nome digitado não foi encontrado!");
+            }
+        } else {
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, preencha o campo nome\npara efetuar a busca!");
+        }
+    }
+
+    //clear fields *************************************************************
+    @FXML
+    public void btnNewClientOnAction() {
+        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient);
+        ClearFields.getInstance().clearScreen(this.anpRegisterClient);
     }
 
     //Masking ******************************************************************
@@ -225,14 +303,18 @@ public class FXMLClientController implements Initializable {
     //Address auto-fill ********************************************************
     @FXML
     public void zipCodeAutoFill() {
-        String zipCode = txtZipCode.getText();
-        ZipCodeSearch zipCodeSearch = new ZipCodeSearch();
-        AddressModel addressModel = zipCodeSearch.buscarCep(zipCode);
-        txtStreet.setText(addressModel.getStreet());
-        txtComplement.setText(addressModel.getComplement());
-        txtDistrict.setText(addressModel.getDistricty());
-        txtCity.setText(addressModel.getCity());
-        cbmState.getSelectionModel().select(addressModel.getState());
+        try {
+            String zipCode = txtZipCode.getText();
+            ZipCodeSearch zipCodeSearch = new ZipCodeSearch();
+            AddressModel addressModelZipCode = zipCodeSearch.buscarCep(zipCode);
+            txtStreet.setText(addressModelZipCode.getStreet());
+            txtComplement.setText(addressModelZipCode.getComplement());
+            txtDistrict.setText(addressModelZipCode.getDistricty());
+            txtCity.setText(addressModelZipCode.getCity());
+            cbmState.getSelectionModel().select(addressModelZipCode.getState());
+        } catch (Exception e) {
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "O CEP informado não foi encontrado!");
+        }
     }
 
     // validate client *********************************************************
@@ -241,7 +323,6 @@ public class FXMLClientController implements Initializable {
         boolean checkCpf = Validate.getInstance().validateCpf(txtCpf);
         boolean checkRg = Validate.getInstance().validateRg(txtRg);
         boolean checkDate = Validate.getInstance().validateDate(cbmDateOfBith);
-
         return checkName && checkCpf && checkRg && checkDate;
     }
 
@@ -263,10 +344,5 @@ public class FXMLClientController implements Initializable {
         boolean checkNumber = Validate.getInstance().validateNumber(txtNumber);
 
         return checkZipCode && checkStreet && checkDistrict && checkCity && checkNumber;
-    }
-
-    //clear fields *************************************************************
-    public void clearFields() {
-        ClearFields.getInstance().clearScreen(this.anpRegisterClient);
     }
 }

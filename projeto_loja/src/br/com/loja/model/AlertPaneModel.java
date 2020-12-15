@@ -25,6 +25,11 @@ public class AlertPaneModel {
 
     private AlertPaneModel() {
     }
+    
+    public void setAlertPaneDefault(Pane pane, Label label) {
+        pane.setStyle("-fx-background-color: #FFFFFF;");
+        label.setText("Preencha os campos a seguir para cadastrar um cliente");
+    }
 
     public void setAlertPaneSuccess(Pane pane, Label label, String message) {
         pane.setStyle("-fx-background-color: #47B071;");

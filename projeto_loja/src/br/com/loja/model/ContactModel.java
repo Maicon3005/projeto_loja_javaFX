@@ -5,15 +5,31 @@
  */
 package br.com.loja.model;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author maico
  */
-public class ContactModel {
+@Entity(name="TBL_CONTACT")
+@Table(name="TBL_CONTACT")
+public class ContactModel implements Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="PK_ID_CONTACT")
+    private Long id;
+    @Column(name="EMAIL")
     private String email;
+    @Column(name="CELLPHONE")
     private String cellPhone;
+    @Column(name="TELEPHONE")
     private String telephone;
 
     public ContactModel() {
@@ -25,11 +41,11 @@ public class ContactModel {
         this.telephone = telephone;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,4 +73,10 @@ public class ContactModel {
         this.telephone = telephone;
     }
 
+    @Override
+    public String toString() {
+        return "ContactModel{" + "id=" + id + ", email=" + email + ", cellPhone=" + cellPhone + ", telephone=" + telephone + '}';
+    }
+
+    
 }

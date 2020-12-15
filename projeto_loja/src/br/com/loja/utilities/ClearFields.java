@@ -6,6 +6,7 @@
 package br.com.loja.utilities;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -26,7 +27,10 @@ public class ClearFields {
     public void clearScreen(AnchorPane anchorPane) {
         ObservableList components = anchorPane.getChildren();
         components.stream().filter((component) -> (component instanceof TextField)).forEachOrdered((component) -> {
-            ((TextField) component).setText(null);
+            ((TextField) component).setText("");
+        });
+        components.stream().filter((component) -> (component instanceof DatePicker)).forEachOrdered((component) -> {
+            ((DatePicker) component).setValue(null);
         });
     }
 

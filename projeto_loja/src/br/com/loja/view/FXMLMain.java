@@ -5,13 +5,11 @@
  */
 package br.com.loja.view;
 
-import br.com.loja.connection.HibernateUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.hibernate.Session;
 
 /**
  *
@@ -32,13 +30,6 @@ public class FXMLMain extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        String sql = "select version()";
-        String result = (String) session.createNamedQuery(sql).getSingleResult();
-        System.out.println(result);
-        session.getTransaction().commit();
-        session.close();
     }
 
 }

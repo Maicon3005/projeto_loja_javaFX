@@ -1,18 +1,38 @@
 package br.com.loja.model;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author maico
  */
-public class AddressModel {
-
-    private int id;
+@Entity(name="TBL_ADDRESS")
+@Table(name="TBL_ADDRESS")
+public class AddressModel implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="PK_ID_ADDRESS")
+    private Long id;
+    @Column(name="ZIPCODE")
     private String zipCode;
+    @Column(name="STREET")
     private String street;
+    @Column(name="DISTRICTY")
     private String districty;
+    @Column(name="CITY")
     private String city;
+    @Column(name="NUMBER")
     private int number;
+    @Column(name="STATE_")
     private String state;
+    @Column(name="COMPLEMENT")
     private String complement;
 
     public AddressModel() {
@@ -36,11 +56,11 @@ public class AddressModel {
         this.state = state;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
