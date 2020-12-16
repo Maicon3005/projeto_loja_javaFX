@@ -25,6 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -35,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import org.hibernate.HibernateException;
@@ -136,19 +138,19 @@ public class FXMLClientController implements Initializable {
     @FXML
     private Button btnSerachList;
     @FXML
-    private TableView<?> tblClient;
+    private TableView<ClientModel> tblClient;
     @FXML
-    private TableColumn<?, ?> clmCode;
+    private TableColumn<ClientModel, Long> clmCode;
     @FXML
-    private TableColumn<?, ?> clmName;
+    private TableColumn<ClientModel, String> clmName;
     @FXML
-    private TableColumn<?, ?> clmCpf;
+    private TableColumn<ClientModel, String> clmCpf;
     @FXML
-    private TableColumn<?, ?> clmEmail;
+    private TableColumn<ClientModel, String> clmEmail;
     @FXML
-    private TableColumn<?, ?> clmTelephone;
+    private TableColumn<ClientModel, String> clmTelephone;
     @FXML
-    private TableColumn<?, ?> clmCellPhone;
+    private TableColumn<ClientModel, String> clmCellPhone;
     @FXML
     private Pane paneAlertSearchClient;
     @FXML
@@ -173,6 +175,7 @@ public class FXMLClientController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient);
         cbmStateFill();
+
     }
 
     //CRUD *********************************************************************
@@ -222,24 +225,58 @@ public class FXMLClientController implements Initializable {
         }
     }
 
+    //search by name ***********************************************************
     @FXML
     public void btnSearchClientOnAction() {
-        if (Validate.getInstance().validateName(txtName)) {
-            String searchName = txtName.getText();
-            clientModel = new ClientModel();
-            clientModel = clientDAO.searchClientByName(searchName);
+        String name = txtName.getText();
+        if (Validate.getInstance().validateName(name)) {
+            clientModel = clientDAO.searchByName(name);
             if (clientModel != null) {
+                //client fields
                 txtCode.setText(String.valueOf(clientModel.getId()));
                 txtName.setText(clientModel.getName());
                 txtCpf.setText(clientModel.getCpf());
                 txtRg.setText(clientModel.getRg());
                 cbmDateOfBith.setValue(clientModel.getDateOfBirth());
+
+                //contact fields
                 txtEmail.setText(clientModel.getContact().getEmail());
+                txtTelephone.setText(clientModel.getContact().getTelephone());
+                txtCellPhone.setText(clientModel.getContact().getCellPhone());
+
+                //address fields
+                txtZipCode.setText(clientModel.getAddress().getZipCode());
+                txtStreet.setText(clientModel.getAddress().getStreet());
+                txtDistrict.setText(clientModel.getAddress().getDistricty());
+                txtCity.setText(clientModel.getAddress().getCity());
+                cbmState.getSelectionModel().select(clientModel.getAddress().getState());
+                txtComplement.setText(clientModel.getAddress().getComplement());
+                txtNumber.setText(String.valueOf(clientModel.getAddress().getNumber()));
+
+                if (clientModel.getGender() == 'm') {
+                    btnGenreMale.setSelected(true);
+                } else {
+                    btnGenreFeminine.setSelected(true);
+                }
+
             } else {
-                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "O nome digitado não foi encontrado!");
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Nenhum Cliente encontrado com esse nome!");
             }
         } else {
-            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, preencha o campo nome\npara efetuar a busca!");
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, preencha corretamente\no campo busca!");
+        }
+    }
+
+    //remove client ************************************************************
+    @FXML
+    public void btnDeleteClientOnAction() {
+        try {
+            if (AlertPaneModel.getInstance().alertConfirmation()) {
+                clientDAO.removeClient(clientModel);
+                AlertPaneModel.getInstance().setAlertPaneSuccess(paneAlertRegisterClient, lblAlertRegisterClient, "Cliente Excluído com sucesso!");
+            }
+        } catch (HibernateException e) {
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível excluir o cliente! \nErro: " + e);
         }
     }
 

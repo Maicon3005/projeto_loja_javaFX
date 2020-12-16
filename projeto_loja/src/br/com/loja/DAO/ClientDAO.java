@@ -7,12 +7,17 @@ package br.com.loja.DAO;
 
 import br.com.loja.connection.HibernateUtil;
 import br.com.loja.model.ClientModel;
+import java.util.List;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateError;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -39,26 +44,16 @@ public class ClientDAO {
         return idClient;
     }
 
-    public ClientModel searchClientByName(String name) {
-        System.out.println("entrou busca");
-        /*
-        
-         */
-        ClientModel client = null;
+    public ClientModel searchByName(String nameClient) {
+        ClientModel clientModel = null;
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
             session = sessionFactory.openSession();
-            Transaction transaction = session.beginTransaction();
-            String hql = "from client where NAME = name";
-            System.out.println("passou hql");
-            Query query = session.createQuery(hql);
-            query.setString("name",name);
-            System.out.println("query");
-            query.setMaxResults(1);
-            client = (ClientModel) query.uniqueResult();
-            transaction.commit();
+            Criteria criteria = session.createCriteria(ClientModel.class);
+            criteria.add(Restrictions.eq("name", nameClient));
+            clientModel = (ClientModel) criteria.uniqueResult();
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -66,8 +61,28 @@ public class ClientDAO {
                 session.close();
             }
         }
-        System.out.println("saiu busca");
-        return client;
+
+        return clientModel;
     }
 
+    public boolean removeClient(ClientModel clientModel) {
+        Session session = null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Transaction transaction = null;;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(clientModel);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return true;
+    }
 }

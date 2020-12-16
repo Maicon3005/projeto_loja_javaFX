@@ -332,7 +332,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnDeleteClient" mnemonicParsing="false" prefHeight="30.0" prefWidth="93.0" text="Excluir">
+                  <Button fx:id="btnDeleteClient" mnemonicParsing="false" onAction="#btnDeleteClientOnAction" prefHeight="30.0" prefWidth="93.0" text="Excluir">
                      <font>
                         <Font size="14.0" />
                      </font>

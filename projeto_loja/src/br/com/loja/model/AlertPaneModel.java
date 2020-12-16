@@ -5,6 +5,10 @@
  */
 package br.com.loja.model;
 
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
@@ -25,7 +29,7 @@ public class AlertPaneModel {
 
     private AlertPaneModel() {
     }
-    
+
     public void setAlertPaneDefault(Pane pane, Label label) {
         pane.setStyle("-fx-background-color: #FFFFFF;");
         label.setText("Preencha os campos a seguir para cadastrar um cliente");
@@ -39,5 +43,19 @@ public class AlertPaneModel {
     public void setAlertPaneFail(Pane pane, Label label, String message) {
         pane.setStyle("-fx-background-color: #FF0000;");
         label.setText(message);
+    }
+
+    public boolean alertConfirmation() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar operação");
+        alert.setHeaderText("Mensagem de confirmação");
+        alert.setContentText("Deseja realmente excluir?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
