@@ -11,21 +11,21 @@ import br.com.loja.model.AlertPaneModel;
 import br.com.loja.model.ClientModel;
 import br.com.loja.model.ContactModel;
 import br.com.loja.model.StateListModel;
+import br.com.loja.model.TableClientModel;
 import br.com.loja.utilities.ClearFields;
+import br.com.loja.utilities.ConvertToTable;
 import br.com.loja.utilities.TextFieldFormatter;
 import br.com.loja.utilities.ZipCodeSearch;
 import br.com.loja.validation.Validate;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -134,23 +134,23 @@ public class FXMLClientController implements Initializable {
     @FXML
     private Label lblSearchList;
     @FXML
-    private ComboBox<?> cbmOptionOfSearch;
+    private ComboBox<String> cbmOptionOfSearch;
     @FXML
-    private Button btnSerachList;
+    private Button btnSearchList;
     @FXML
-    private TableView<ClientModel> tblClient;
+    private TableView<TableClientModel> tblClient;
     @FXML
-    private TableColumn<ClientModel, Long> clmCode;
+    private TableColumn<TableClientModel, Long> clmCode;
     @FXML
-    private TableColumn<ClientModel, String> clmName;
+    private TableColumn<TableClientModel, String> clmName;
     @FXML
-    private TableColumn<ClientModel, String> clmCpf;
+    private TableColumn<TableClientModel, String> clmCpf;
     @FXML
-    private TableColumn<ClientModel, String> clmEmail;
+    private TableColumn<TableClientModel, String> clmEmail;
     @FXML
-    private TableColumn<ClientModel, String> clmTelephone;
+    private TableColumn<TableClientModel, String> clmTelephone;
     @FXML
-    private TableColumn<ClientModel, String> clmCellPhone;
+    private TableColumn<TableClientModel, String> clmCellPhone;
     @FXML
     private Pane paneAlertSearchClient;
     @FXML
@@ -169,12 +169,15 @@ public class FXMLClientController implements Initializable {
     private ContactModel contactModel;
     private AddressModel addressModel;
     private final ClientDAO clientDAO = new ClientDAO();
+    private List<TableClientModel> listTableClient;
 
     //initializa controller ****************************************************
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient);
+        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient, "Preencha os campos a seguir para cadastrar um cliente");
         cbmStateFill();
+        cbmSearchOptionFill();
+        tblClientAutoFillAllClients(clientDAO.searchAllClients());
 
     }
 
@@ -214,6 +217,7 @@ public class FXMLClientController implements Initializable {
             try {
                 Long idClient = clientDAO.SaveClient(clientModel);
                 txtCode.setText(String.valueOf(idClient));
+                tblClientAutoFillAllClients(clientDAO.searchAllClients());
                 AlertPaneModel.getInstance().setAlertPaneSuccess(paneAlertRegisterClient, lblAlertRegisterClient, "Cliente salvo com sucesso!");
             } catch (HibernateException e) {
                 AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível salvar o cliente! \nErro: " + e);
@@ -221,8 +225,58 @@ public class FXMLClientController implements Initializable {
                 AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível salvar o cliente! \nErro: " + e);
             }
         } else {
-            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, preencha os campos do formulário!");
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, verifique os campos do formulário!");
         }
+    }
+
+    //update client ************************************************************
+    @FXML
+    public void btnEditClientOnAction() {
+        if (validateClient() & validateAddress() & validateContact()) {
+            //contact model*****************************************************
+            Long contactCode = clientModel.getContact().getId();
+            String email = txtEmail.getText();
+            String cellPhone = txtCellPhone.getText();
+            String telephone = txtTelephone.getText();
+
+            contactModel = new ContactModel(contactCode, email, cellPhone, telephone);
+
+            //address model*****************************************************
+            Long addressCode = clientModel.getAddress().getId();
+            String zipCode = txtZipCode.getText();
+            String street = txtStreet.getText();
+            String district = txtDistrict.getText();
+            String city = txtCity.getText();
+            int number = Integer.parseInt(txtNumber.getText());
+            String state = cbmState.getValue();
+            String complement = txtComplement.getText();
+
+            addressModel = new AddressModel(addressCode, zipCode, street, district, city, number, state, complement);
+
+            //client model******************************************************
+            Long clientCode = Long.parseLong(txtCode.getText());
+            String name = txtName.getText();
+            String cpf = txtCpf.getText();
+            String rg = txtRg.getText();
+            LocalDate date = cbmDateOfBith.getValue();
+            char genre = btnGenreMale.isSelected() ? 'm' : 'f';
+
+            clientModel = new ClientModel(clientCode, name, cpf, rg, date, genre, addressModel, contactModel);
+
+            //save client*******************************************************
+            try {
+                clientDAO.updateClient(clientModel);
+                tblClientAutoFillAllClients(clientDAO.searchAllClients());
+                AlertPaneModel.getInstance().setAlertPaneSuccess(paneAlertRegisterClient, lblAlertRegisterClient, "Cliente atualizado com sucesso!");
+            } catch (HibernateException e) {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível atualizar o cliente! \nErro: " + e);
+            } catch (Exception e) {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Não foi possível atualizar o cliente! \nErro: " + e);
+            }
+        } else {
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertRegisterClient, lblAlertRegisterClient, "Por favor, verifique os campos do formulário!");
+        }
+
     }
 
     //search by name ***********************************************************
@@ -267,12 +321,41 @@ public class FXMLClientController implements Initializable {
         }
     }
 
+    //client search by name or cpf
+    @FXML
+    public void searchClientListBtnSearchList() {
+        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertSearchClient, lblMsgSearchClient, "Preencha o campo a seguir para pesquisar um cliente:");
+        String text = txtSearchList.getText();
+        
+        if (cbmOptionOfSearch.getSelectionModel().isSelected(0)) {
+            if (Validate.getInstance().validateName(text)) {
+                for (TableClientModel tableClientModel : listTableClient) {
+                    if (tableClientModel.getName().equals(text)) {
+                        listTableClient.add(tableClientModel);
+                    }
+                }
+                tblClientSearchResult(listTableClient);
+            } else {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertSearchClient, lblMsgSearchClient, "Por favor, digite um nome válido!");
+            }
+        } else if (cbmOptionOfSearch.getSelectionModel().isSelected(1)) {
+            if (Validate.getInstance().validateCpf(text)) {
+
+            } else {
+                AlertPaneModel.getInstance().setAlertPaneFail(paneAlertSearchClient, lblMsgSearchClient, "Por favor, digite um CPF válido!");
+            }
+        }else{
+            AlertPaneModel.getInstance().alertConfirmation();
+        }
+    }
+
     //remove client ************************************************************
     @FXML
     public void btnDeleteClientOnAction() {
         try {
-            if (AlertPaneModel.getInstance().alertConfirmation()) {
+            if (AlertPaneModel.getInstance().alertDeleteConfirmation()) {
                 clientDAO.removeClient(clientModel);
+                tblClientAutoFillAllClients(clientDAO.searchAllClients());
                 AlertPaneModel.getInstance().setAlertPaneSuccess(paneAlertRegisterClient, lblAlertRegisterClient, "Cliente Excluído com sucesso!");
             }
         } catch (HibernateException e) {
@@ -283,7 +366,7 @@ public class FXMLClientController implements Initializable {
     //clear fields *************************************************************
     @FXML
     public void btnNewClientOnAction() {
-        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient);
+        AlertPaneModel.getInstance().setAlertPaneDefault(paneAlertRegisterClient, lblAlertRegisterClient, "Preencha os campos a seguir para cadastrar um cliente");
         ClearFields.getInstance().clearScreen(this.anpRegisterClient);
     }
 
@@ -335,6 +418,56 @@ public class FXMLClientController implements Initializable {
         ObservableList<String> observableStates = FXCollections.observableArrayList(listStates);
         cbmState.setPromptText(observableStates.get(0));
         cbmState.setItems(observableStates);
+    }
+
+    //Fill search option combox box ********************************************
+    public void cbmSearchOptionFill() {
+        List<String> listOptions = new ArrayList<>();
+        listOptions.add("Por nome");
+        listOptions.add("Por CPF");
+        ObservableList<String> observableSearch = FXCollections.observableArrayList(listOptions);
+        cbmOptionOfSearch.setPromptText("Selecione ...");
+        cbmOptionOfSearch.setItems(observableSearch);
+    }
+
+    //table autofill ***********************************************************
+    public void tblClientAutoFillAllClients(List<ClientModel> listFillOfTable) {
+
+        clmCode.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        clmTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
+        clmCellPhone.setCellValueFactory(new PropertyValueFactory<>("cellPhone"));
+
+        listTableClient = ConvertToTable.getInstance().convertObject(listFillOfTable);
+
+        if (!listTableClient.isEmpty()) {
+            ObservableList<TableClientModel> observableClient = FXCollections.observableArrayList(listTableClient);
+            tblClient.setItems(observableClient);
+        } else {
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertSearchClient, lblMsgSearchClient, "Nenhum cliente encontrado!");
+        }
+    }
+
+    //table search result by name or cpf ***************************************
+    public void tblClientSearchResult(List<TableClientModel> listFillOfTable) {
+
+        clmCode.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        clmTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
+        clmCellPhone.setCellValueFactory(new PropertyValueFactory<>("cellPhone"));
+
+        listTableClient = listFillOfTable;
+
+        if (!listTableClient.isEmpty()) {
+            ObservableList<TableClientModel> observableClient = FXCollections.observableArrayList(listTableClient);
+            tblClient.setItems(observableClient);
+        } else {
+            AlertPaneModel.getInstance().setAlertPaneFail(paneAlertSearchClient, lblMsgSearchClient, "Nenhum cliente encontrado!");
+        }
     }
 
     //Address auto-fill ********************************************************

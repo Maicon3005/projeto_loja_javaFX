@@ -22,23 +22,23 @@ import javax.persistence.TemporalType;
  *
  * @author maico
  */
-@Entity(name="TBL_CLIENT")
-@Table(name="TBL_CLIENT")
+@Entity(name = "TBL_CLIENT")
+@Table(name = "TBL_CLIENT")
 public class ClientModel implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PK_ID_CLIENT")        
+    @Column(name = "PK_ID_CLIENT")
     private Long id;
-    @Column(name="NAME") 
+    @Column(name = "NAME")
     private String name;
-    @Column(name="CPF") 
+    @Column(name = "CPF")
     private String cpf;
-    @Column(name="RG") 
+    @Column(name = "RG")
     private String rg;
-    @Column(name="DATE_OF_BIRTH") 
+    @Column(name = "DATE_OF_BIRTH")
     private LocalDate dateOfBirth;
-    @Column(name="GENDER") 
+    @Column(name = "GENDER")
     private char gender;
     @OneToOne(cascade = CascadeType.ALL)
     private AddressModel address;
@@ -46,6 +46,17 @@ public class ClientModel implements Serializable {
     private ContactModel contact;
 
     public ClientModel() {
+    }
+
+    public ClientModel(Long id, String name, String cpf, String rg, LocalDate dateOfBirth, char gender, AddressModel address, ContactModel contact) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.address = address;
+        this.contact = contact;
     }
 
     public ClientModel(String name, String cpf, String rg, LocalDate dateOfBirth, char gender, AddressModel address, ContactModel contact) {

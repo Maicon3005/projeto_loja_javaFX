@@ -7,6 +7,7 @@ package br.com.loja.DAO;
 
 import br.com.loja.connection.HibernateUtil;
 import br.com.loja.model.ClientModel;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -44,25 +45,25 @@ public class ClientDAO {
         return idClient;
     }
 
-    public ClientModel searchByName(String nameClient) {
-        ClientModel clientModel = null;
+    public void updateClient(ClientModel clienteModel) {
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Transaction transaction = null;
 
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(ClientModel.class);
-            criteria.add(Restrictions.eq("name", nameClient));
-            clientModel = (ClientModel) criteria.uniqueResult();
+            transaction = session.beginTransaction();
+            session.update(clienteModel);
+            transaction.commit();
+
         } catch (HibernateException e) {
+            transaction.rollback();
             e.printStackTrace();
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-
-        return clientModel;
     }
 
     public boolean removeClient(ClientModel clientModel) {
@@ -84,5 +85,67 @@ public class ClientDAO {
             }
         }
         return true;
+    }
+
+    public ClientModel searchByName(String nameClient) {
+        ClientModel clientModel = null;
+        Session session = null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+        try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(ClientModel.class);
+            criteria.add(Restrictions.eq("name", nameClient));
+            clientModel = (ClientModel) criteria.uniqueResult();;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return clientModel;
+    }
+    
+    public List<ClientModel> searchByNameList(String nameClient) {
+        List<ClientModel> listClient = null;
+        Session session = null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+        try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(ClientModel.class);
+            criteria.add(Restrictions.eq("name", nameClient));
+            listClient = criteria.list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return listClient;
+    }
+
+    public List<ClientModel> searchAllClients() {
+        List<ClientModel> clientList = new ArrayList<>();
+        Session session = null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+        try {
+            session = sessionFactory.openSession();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<ClientModel> criteriaQuery = criteriaBuilder.createQuery(ClientModel.class);
+            criteriaQuery.from(ClientModel.class);
+            clientList = session.createQuery(criteriaQuery).getResultList();
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return clientList;
     }
 }

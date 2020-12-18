@@ -17,22 +17,29 @@ import javax.persistence.Table;
  *
  * @author maico
  */
-@Entity(name="TBL_CONTACT")
-@Table(name="TBL_CONTACT")
+@Entity(name = "TBL_CONTACT")
+@Table(name = "TBL_CONTACT")
 public class ContactModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PK_ID_CONTACT")
+    @Column(name = "PK_ID_CONTACT")
     private Long id;
-    @Column(name="EMAIL")
+    @Column(name = "EMAIL")
     private String email;
-    @Column(name="CELLPHONE")
+    @Column(name = "CELLPHONE")
     private String cellPhone;
-    @Column(name="TELEPHONE")
+    @Column(name = "TELEPHONE")
     private String telephone;
 
     public ContactModel() {
+    }
+
+    public ContactModel(Long id, String email, String cellPhone, String telephone) {
+        this.id = id;
+        this.email = email;
+        this.cellPhone = cellPhone;
+        this.telephone = telephone;
     }
 
     public ContactModel(String email, String cellPhone, String telephone) {
@@ -78,5 +85,4 @@ public class ContactModel implements Serializable {
         return "ContactModel{" + "id=" + id + ", email=" + email + ", cellPhone=" + cellPhone + ", telephone=" + telephone + '}';
     }
 
-    
 }

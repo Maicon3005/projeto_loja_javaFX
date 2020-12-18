@@ -38,6 +38,17 @@ public class AddressModel implements Serializable {
     public AddressModel() {
     }
 
+    public AddressModel(Long id, String zipCode, String street, String districty, String city, int number, String state, String complement) {
+        this.id = id;
+        this.zipCode = zipCode;
+        this.street = street;
+        this.districty = districty;
+        this.city = city;
+        this.number = number;
+        this.state = state;
+        this.complement = complement;
+    }
+
     public AddressModel(String zipCode, String street, String districty, String city, int number, String state, String complement) {
         this.zipCode = zipCode;
         this.street = street;

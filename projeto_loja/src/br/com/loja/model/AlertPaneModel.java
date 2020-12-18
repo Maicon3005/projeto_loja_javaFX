@@ -30,9 +30,9 @@ public class AlertPaneModel {
     private AlertPaneModel() {
     }
 
-    public void setAlertPaneDefault(Pane pane, Label label) {
+    public void setAlertPaneDefault(Pane pane, Label label, String msg) {
         pane.setStyle("-fx-background-color: #FFFFFF;");
-        label.setText("Preencha os campos a seguir para cadastrar um cliente");
+        label.setText(msg);
     }
 
     public void setAlertPaneSuccess(Pane pane, Label label, String message) {
@@ -44,9 +44,16 @@ public class AlertPaneModel {
         pane.setStyle("-fx-background-color: #FF0000;");
         label.setText(message);
     }
+    
+    public void alertConfirmation(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Escolher busca");
+        alert.setHeaderText("Mensagem de alerta");
+        alert.setContentText("Por favor, escolha o campo que deseja procurar!");
+    }
 
-    public boolean alertConfirmation() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
+    public boolean alertDeleteConfirmation() {
+        Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Confirmar operação");
         alert.setHeaderText("Mensagem de confirmação");
         alert.setContentText("Deseja realmente excluir?");
