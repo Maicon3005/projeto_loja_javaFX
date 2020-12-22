@@ -128,6 +128,25 @@ public class Validate {
         return matcher.find();
     }
 
+    //cnpj validator
+    public boolean validateCnpj(TextField textField) {
+        pattern = Pattern.compile("^\\d{2}.\\d{3}.\\d{3}\\/\\d{4}-\\d{2}$");
+        matcher = pattern.matcher(textField.getText());
+        boolean check = matcher.find();
+        if (check) {
+            textField.setStyle(borderColorGray);
+            return check;
+        }
+        textField.setStyle(borderColorRed);
+        return check;
+    }
+
+    public boolean validateCnpj(String cpf) {
+        pattern = Pattern.compile("^\\d{2}.\\d{3}.\\d{3}\\/\\d{4}-\\d{2}$");
+        matcher = pattern.matcher(cpf);
+        return matcher.find();
+    }
+
     //rg validator
     public boolean validateRg(TextField textField) {
         pattern = Pattern.compile("(\\d{2}).(\\d{3}).(\\d{3})-(\\d{1})");

@@ -3,16 +3,13 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,34 +17,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="669.0" maxWidth="781.0" minHeight="496.0" minWidth="469.0" prefHeight="669.0" prefWidth="781.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.loja.controller.FXMLClientController">
+<VBox maxHeight="669.0" maxWidth="781.0" minHeight="496.0" minWidth="469.0" prefHeight="669.0" prefWidth="781.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.loja.controller.FXMLProviderController">
    <children>
       <Pane prefHeight="65.0" prefWidth="769.0" styleClass="title_anchorpane">
          <children>
-            <Label layoutX="276.0" layoutY="15.0" text="Cadastro de Clientes" textFill="WHITE">
+            <Label layoutX="276.0" layoutY="15.0" text="Cadastro de Fornecedores" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <TabPane fx:id="tabPaneClient" prefHeight="537.0" prefWidth="781.0" styleClass="pane_color" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPaneProvider" prefHeight="537.0" prefWidth="781.0" styleClass="pane_color" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="tabRegisterClient" onSelectionChanged="#selectTab" text="Cadastro de Clientes">
+          <Tab fx:id="tabRegisterProvider" onSelectionChanged="#selectTab" text="Cadastro de Fornecedores">
             <content>
-              <AnchorPane fx:id="anpRegisterClient" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="781.0" styleClass="pane">
+              <AnchorPane fx:id="anpRegisterProvider" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="781.0" styleClass="pane">
                      <children>
-                        <Label fx:id="lblCpf" contentDisplay="TOP" layoutX="122.0" layoutY="153.0" text="CPF:">
+                        <Label fx:id="lblCompanyName" contentDisplay="TOP" layoutX="68.0" layoutY="153.0" text="Razão Social:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="436.0" layoutY="153.0" prefHeight="20.0" prefWidth="35.0" text="RG:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblDateOfBirth" layoutX="19.0" layoutY="190.0" text="Data de Nascimento:">
+                        <Label fx:id="lblCnpj" layoutX="112.0" layoutY="195.0" text="CNPJ:">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -57,17 +49,12 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblName" alignment="BOTTOM_RIGHT" layoutX="107.0" layoutY="112.0" text="Nome:">
+                        <Label fx:id="lblFantasyName" alignment="BOTTOM_RIGHT" layoutX="54.0" layoutY="112.0" text="Nome Fantasia:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
                         <Label fx:id="lblCellPhone" layoutX="108.0" layoutY="291.0" text="Celular:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblGenre" layoutX="408.0" layoutY="191.0" text="Gênero:">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -82,12 +69,12 @@
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtName" layoutX="160.0" layoutY="107.0" prefHeight="30.0" prefWidth="408.0">
+                        <TextField fx:id="txtFantasyName" layoutX="160.0" layoutY="107.0" prefHeight="30.0" prefWidth="408.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <Button fx:id="btnSearchClientByName" layoutX="582.0" layoutY="107.0" mnemonicParsing="false" onAction="#btnSearchClientOnAction" prefHeight="30.0" prefWidth="93.0" text="Buscar">
+                        <Button fx:id="btnSearchProviderByName" layoutX="582.0" layoutY="107.0" mnemonicParsing="false" onAction="#btnSearchProviderOnAction" prefHeight="30.0" prefWidth="93.0" text="Buscar">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -99,30 +86,11 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <TextField fx:id="txtCpf" layoutX="160.0" layoutY="148.0" onKeyReleased="#addMaskTxtCpfKeyReleased" prefHeight="25.0" prefWidth="230.0">
+                        <TextField fx:id="txtCompanyName" layoutX="160.0" layoutY="148.0" onKeyReleased="#addMaskTxtCpfKeyReleased" prefHeight="30.0" prefWidth="516.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="txtRg" layoutX="468.0" layoutY="149.0" onKeyReleased="#addMaskTxtRgKeyReleased" prefHeight="25.0" prefWidth="252.0">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <DatePicker fx:id="cbmDateOfBith" layoutX="160.0" layoutY="186.0" prefHeight="28.0" prefWidth="230.0" />
-                        <RadioButton fx:id="btnGenreMale" layoutX="500.0" layoutY="192.0" mnemonicParsing="false" selected="true" text="Masculino">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="groupGenre" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="btnGenreFeminine" layoutX="605.0" layoutY="192.0" mnemonicParsing="false" text="Feminino" toggleGroup="$groupGenre">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </RadioButton>
                         <TextField fx:id="txtEmail" layoutX="160.0" layoutY="246.0" prefHeight="25.0" prefWidth="322.0">
                            <font>
                               <Font size="14.0" />
@@ -223,22 +191,27 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Pane fx:id="paneAlertRegisterClient" layoutX="-7.0" prefHeight="50.0" prefWidth="795.0">
+                        <Pane fx:id="paneAlertRegisterProvider" layoutX="-7.0" prefHeight="50.0" prefWidth="795.0">
                            <children>
-                              <Label fx:id="lblAlertRegisterClient" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="3.0" prefHeight="44.0" prefWidth="781.0" text="Preencha os campos a seguir para cadastrar um novo cliente:" textAlignment="CENTER">
+                              <Label fx:id="lblAlertRegisterProvider" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="3.0" prefHeight="44.0" prefWidth="781.0" text="Preencha os campos a seguir para cadastrar um novo fornecedor:" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </Pane>
+                        <TextField fx:id="txtCnpj" layoutX="160.0" layoutY="189.0" onKeyReleased="#addMaskTxtCpfKeyReleased" prefHeight="30.0" prefWidth="408.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabListClient" onSelectionChanged="#selectTab" text="Lista de Clientes">
+          <Tab fx:id="tabListProvider" onSelectionChanged="#selectTab" text="Lista de Fornecedores">
             <content>
-              <AnchorPane fx:id="anpSearchClient" minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="781.0">
+              <AnchorPane fx:id="anpSearchProvider" minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="781.0">
                      <children>
                         <Label fx:id="lblSearchList" layoutX="40.0" layoutY="68.0" text="Buscar:">
                            <font>
@@ -251,7 +224,7 @@
                            </font>
                         </TextField>
                         <ComboBox fx:id="cbmOptionOfSearch" layoutX="435.0" layoutY="64.0" prefHeight="28.0" prefWidth="105.0" />
-                        <Button fx:id="btnSearchList" layoutX="550.0" layoutY="63.0" mnemonicParsing="false" onAction="#searchClientListBtnSearchList" prefHeight="31.0" prefWidth="86.0" text="Buscar">
+                        <Button fx:id="btnSearchList" layoutX="550.0" layoutY="63.0" mnemonicParsing="false" onAction="#searchProviderListBtnSearchList" prefHeight="31.0" prefWidth="86.0" text="Buscar">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -263,11 +236,11 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <TableView fx:id="tblClient" layoutX="13.0" layoutY="115.0" prefHeight="367.0" prefWidth="754.0">
+                        <TableView fx:id="tblProvider" layoutX="13.0" layoutY="115.0" prefHeight="367.0" prefWidth="754.0">
                           <columns>
                             <TableColumn fx:id="clmCode" prefWidth="75.0" text="Código" />
-                            <TableColumn fx:id="clmName" prefWidth="75.0" text="Nome" />
-                              <TableColumn fx:id="clmCpf" prefWidth="75.0" text="CPF" />
+                            <TableColumn fx:id="clmFantasyName" prefWidth="75.0" text="Nome Fantasia" />
+                              <TableColumn fx:id="clmCnpj" prefWidth="75.0" text="CNPJ" />
                               <TableColumn fx:id="clmEmail" prefWidth="75.0" text="Email" />
                               <TableColumn fx:id="clmTelephone" prefWidth="75.0" text="Telefone" />
                               <TableColumn fx:id="clmCellPhone" prefWidth="75.0" text="Celular" />
@@ -277,9 +250,9 @@
                            </columnResizePolicy>
                         </TableView>
                         <Separator layoutX="-4.0" layoutY="99.0" prefHeight="0.0" prefWidth="790.0" />
-                        <Pane fx:id="paneAlertSearchClient" prefHeight="50.0" prefWidth="795.0">
+                        <Pane fx:id="paneAlertSearchProvider" prefHeight="50.0" prefWidth="795.0">
                            <children>
-                              <Label fx:id="lblMsgSearchClient" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="3.0" prefHeight="43.0" prefWidth="781.0" text="Preencha o campo a seguir para pesquisar um cliente:" textAlignment="CENTER">
+                              <Label fx:id="lblMsgSearchProvider" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="3.0" prefHeight="43.0" prefWidth="781.0" text="Preencha o campo a seguir para pesquisar um fornecedores:" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -308,7 +281,7 @@
          <children>
             <Group layoutX="187.0" layoutY="19.0">
                <children>
-                  <Button fx:id="btnNewClient" layoutX="315.0" mnemonicParsing="false" onAction="#btnNewClientOnAction" prefHeight="30.0" prefWidth="93.0" text="Novo">
+                  <Button fx:id="btnNewProvider" layoutX="315.0" mnemonicParsing="false" onAction="#btnNewProviderOnAction" prefHeight="30.0" prefWidth="93.0" text="Novo">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -320,19 +293,19 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnSaveClient" layoutX="207.0" mnemonicParsing="false" onAction="#btnSaveClientOnAction" prefHeight="30.0" prefWidth="93.0" text="Salvar">
+                  <Button fx:id="btnSaveProvider" layoutX="207.0" mnemonicParsing="false" onAction="#btnSaveProviderOnAction" prefHeight="30.0" prefWidth="93.0" text="Salvar">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="64.0" onDragDetected="#validateClient" pickOnBounds="true" preserveRatio="true" styleClass="button_color">
+                        <ImageView fitHeight="20.0" fitWidth="64.0" onDragDetected="#validateProvider" pickOnBounds="true" preserveRatio="true" styleClass="button_color">
                            <image>
                               <Image url="@../images/save_icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnEditClient" layoutX="104.0" mnemonicParsing="false" onAction="#btnEditClientOnAction" prefHeight="30.0" prefWidth="93.0" text="Editar">
+                  <Button fx:id="btnEditProvider" layoutX="104.0" mnemonicParsing="false" onAction="#btnEditProviderOnAction" prefHeight="30.0" prefWidth="93.0" text="Editar">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -344,7 +317,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnDeleteClient" mnemonicParsing="false" onAction="#btnDeleteClientOnAction" prefHeight="30.0" prefWidth="93.0" text="Excluir">
+                  <Button fx:id="btnDeleteProvider" mnemonicParsing="false" onAction="#btnDeleteProviderOnAction" prefHeight="30.0" prefWidth="93.0" text="Excluir">
                      <font>
                         <Font size="14.0" />
                      </font>

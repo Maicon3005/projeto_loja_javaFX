@@ -463,7 +463,7 @@ public class FXMLClientController implements Initializable {
         clmTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         clmCellPhone.setCellValueFactory(new PropertyValueFactory<>("cellPhone"));
 
-        listTableAllClients = ConvertToTable.getInstance().convertObject(listFillOfTable);
+        listTableAllClients = ConvertToTable.getInstance().convertObjectClient(listFillOfTable);
 
         observableClient = FXCollections.observableArrayList(listTableAllClients);
         tblClient.setItems(observableClient);

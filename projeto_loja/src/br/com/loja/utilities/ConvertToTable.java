@@ -6,7 +6,9 @@
 package br.com.loja.utilities;
 
 import br.com.loja.model.ClientModel;
+import br.com.loja.model.ProviderModel;
 import br.com.loja.model.TableClientModel;
+import br.com.loja.model.TableProviderModel;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class ConvertToTable {
 
     }
 
-    public List<TableClientModel> convertObject(List<ClientModel> clientList) {
+    public List<TableClientModel> convertObjectClient(List<ClientModel> clientList) {
         List<TableClientModel> listTableClient = new ArrayList<>();
         TableClientModel tableClientModel;
 
@@ -46,5 +48,23 @@ public class ConvertToTable {
             listTableClient.add(tableClientModel);
         }
         return listTableClient;
+    }
+
+    public List<TableProviderModel> convertObjectProvider(List<ProviderModel> providerList) {
+        List<TableProviderModel> listTableProvider = new ArrayList<>();
+        TableProviderModel tableProviderModel;
+
+        for (ProviderModel providerModel : providerList) {
+            Long id = providerModel.getId();
+            String fantasyName = providerModel.getFantasyName();
+            String cnpj = providerModel.getCnpj();
+            String email = providerModel.getContact().getEmail();
+            String cellPhone = providerModel.getContact().getCellPhone();
+            String telephone = providerModel.getContact().getTelephone();
+
+            tableProviderModel = new TableProviderModel(id, fantasyName, cnpj, email, cellPhone, telephone);
+            listTableProvider.add(tableProviderModel);
+        }
+        return listTableProvider;
     }
 }

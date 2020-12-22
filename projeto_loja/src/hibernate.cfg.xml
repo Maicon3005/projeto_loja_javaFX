@@ -57,6 +57,7 @@ Contributor(s):
             <!-- mappings-->
             <mapping class="br.com.loja.model.ContactModel"></mapping>
             <mapping class="br.com.loja.model.ClientModel"></mapping>
+            <mapping class="br.com.loja.model.ProviderModel"></mapping>
             <mapping class="br.com.loja.model.AddressModel"></mapping>
         
         </session-factory>
