@@ -26,11 +26,13 @@ public class ClearFields {
 
     public void clearScreen(AnchorPane anchorPane) {
         ObservableList components = anchorPane.getChildren();
-        components.stream().filter((component) -> (component instanceof TextField)).forEachOrdered((component) -> {
+        components.stream().filter((component) -> (component instanceof TextField)).forEachOrdered((Object component) -> {
             ((TextField) component).setText("");
+            ((TextField) component).setStyle("-fx-border-color: #C2C0C0;");
         });
         components.stream().filter((component) -> (component instanceof DatePicker)).forEachOrdered((component) -> {
             ((DatePicker) component).setValue(null);
+            ((DatePicker) component).setStyle("-fx-border-color: #C2C0C0;");
         });
     }
 

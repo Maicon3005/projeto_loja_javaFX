@@ -77,4 +77,9 @@ public class TableClientModel {
         this.Telephone = Telephone;
     }
 
+    @Override
+    public String toString() {
+        return "TableClientModel{" + "id=" + id + ", name=" + name + ", cpf=" + cpf + ", email=" + email + ", cellPhone=" + cellPhone + ", Telephone=" + Telephone + '}';
+    }
+
 }

@@ -87,6 +87,27 @@ public class ClientDAO {
         return true;
     }
 
+    public ClientModel searchById(Long idClient) {
+        ClientModel clientModel = null;
+        Session session = null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+        try {
+            session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+            clientModel = (ClientModel) session.get(ClientModel.class, idClient);
+            transaction.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return clientModel;
+    }
+
     public ClientModel searchByName(String nameClient) {
         ClientModel clientModel = null;
         Session session = null;
@@ -107,7 +128,7 @@ public class ClientDAO {
 
         return clientModel;
     }
-    
+
     public List<ClientModel> searchByNameList(String nameClient) {
         List<ClientModel> listClient = null;
         Session session = null;

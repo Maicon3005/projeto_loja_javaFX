@@ -45,18 +45,33 @@ public class AlertPaneModel {
         label.setText(message);
     }
     
-    public void alertConfirmation(){
+    public void alertSearchConfirmation(String title, String header, String content){
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Escolher busca");
-        alert.setHeaderText("Mensagem de alerta");
-        alert.setContentText("Por favor, escolha o campo que deseja procurar!");
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+    }
+    
+    public boolean alertUpdateConfirmation(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public boolean alertDeleteConfirmation() {
+    public boolean alertDeleteConfirmation(String title, String header, String content) {
         Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Confirmar operação");
-        alert.setHeaderText("Mensagem de confirmação");
-        alert.setContentText("Deseja realmente excluir?");
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
