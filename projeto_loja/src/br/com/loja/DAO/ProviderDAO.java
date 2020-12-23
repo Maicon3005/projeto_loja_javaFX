@@ -6,6 +6,7 @@
 package br.com.loja.DAO;
 
 import br.com.loja.connection.HibernateUtil;
+import br.com.loja.model.AlertPaneModel;
 import br.com.loja.model.ProviderModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +28,17 @@ public class ProviderDAO {
 
     public Long SaveProvider(ProviderModel Provider) {
         Session session = null;
+        Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Long idProvider = null;
         try {
             session = sessionFactory.openSession();
-            Transaction transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             idProvider = (Long) session.save(Provider);
             transaction.commit();
         } catch (HibernateError e) {
-            e.printStackTrace();
+            transaction.rollback();
+            AlertPaneModel.getInstance().alertException("Erro ao Salvar", "O seguinte erro ocorreu ao tentar salvar o fornecedor", e.toString());
         } finally {
             if (session != null) {
                 session.close();
@@ -57,7 +60,7 @@ public class ProviderDAO {
 
         } catch (HibernateException e) {
             transaction.rollback();
-            e.printStackTrace();
+            AlertPaneModel.getInstance().alertException("Erro ao Atualizar", "O seguinte erro ocorreu ao tentar atualizar o fornecedor", e.toString());
         } finally {
             if (session != null) {
                 session.close();
@@ -76,7 +79,7 @@ public class ProviderDAO {
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            e.printStackTrace();
+            AlertPaneModel.getInstance().alertException("Erro ao Deletar", "O seguinte erro ocorreu ao tentar deletar o fornecedor", e.toString());
             return false;
         } finally {
             if (session != null) {
@@ -97,7 +100,7 @@ public class ProviderDAO {
             ProviderModel = (ProviderModel) session.get(ProviderModel.class, idProvider);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o fornecedor", e.toString());
         } finally {
             if (session != null) {
                 session.close();
@@ -118,7 +121,7 @@ public class ProviderDAO {
             criteria.add(Restrictions.eq("name", nameProvider));
             ProviderModel = (ProviderModel) criteria.uniqueResult();;
         } catch (HibernateException e) {
-            e.printStackTrace();
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o fornecedor", e.toString());
         } finally {
             if (session != null) {
                 session.close();
@@ -139,7 +142,7 @@ public class ProviderDAO {
             criteria.add(Restrictions.eq("name", nameProvider));
             listProvider = criteria.list();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o fornecedor", e.toString());
         } finally {
             if (session != null) {
                 session.close();
@@ -162,7 +165,7 @@ public class ProviderDAO {
             ProviderList = session.createQuery(criteriaQuery).getResultList();
 
         } catch (HibernateException e) {
-            e.printStackTrace();
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o fornecedor", e.toString());
         } finally {
             session.close();
         }

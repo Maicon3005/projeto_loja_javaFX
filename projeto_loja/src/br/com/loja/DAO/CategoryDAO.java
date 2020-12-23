@@ -7,7 +7,7 @@ package br.com.loja.DAO;
 
 import br.com.loja.connection.HibernateUtil;
 import br.com.loja.model.AlertPaneModel;
-import br.com.loja.model.ClientModel;
+import br.com.loja.model.CategoryModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,30 +24,30 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author maico
  */
-public class ClientDAO {
+public class CategoryDAO {
 
-    public Long SaveClient(ClientModel client) {
+    public Long SaveCategory(CategoryModel category) {
         Session session = null;
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Long idClient = null;
+        Long idCategory = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            idClient = (Long) session.save(client);
+            idCategory = (Long) session.save(category);
             transaction.commit();
         } catch (HibernateError e) {
             transaction.rollback();
-            AlertPaneModel.getInstance().alertException("Erro ao Salvar", "O seguinte erro ocorreu ao tentar salvar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Salvar", "O seguinte erro ocorreu ao tentar salvar o categoria", e.toString());
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return idClient;
+        return idCategory;
     }
     
-    public void updateClient(ClientModel clienteModel) {
+    public void updateCategory(CategoryModel categoryModel) {
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Transaction transaction = null;
@@ -55,12 +55,12 @@ public class ClientDAO {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.update(clienteModel);
+            session.update(categoryModel);
             transaction.commit();
 
         } catch (HibernateException e) {
             transaction.rollback();
-            AlertPaneModel.getInstance().alertException("Erro ao Atualizar", "O seguinte erro ocorreu ao tentar atualizar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Atualizar", "O seguinte erro ocorreu ao tentar atualizar a categoria", e.toString());
         } finally {
             if (session != null) {
                 session.close();
@@ -68,18 +68,18 @@ public class ClientDAO {
         }
     }
 
-    public boolean removeClient(ClientModel clientModel) {
+    public boolean removeCategory(CategoryModel categoryModel) {
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Transaction transaction = null;;
+        Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.delete(clientModel);
+            session.delete(categoryModel);
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            AlertPaneModel.getInstance().alertException("Erro ao Deletar", "O seguinte erro ocorreu ao tentar deletar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Deletar", "O seguinte erro ocorreu ao tentar deletar a categoria", e.toString());
             return false;
         } finally {
             if (session != null) {
@@ -89,86 +89,86 @@ public class ClientDAO {
         return true;
     }
 
-    public ClientModel searchById(Long idClient) {
-        ClientModel clientModel = null;
+    public CategoryModel searchById(Long idCategory) {
+        CategoryModel categoryModel = null;
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
             session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
-            clientModel = (ClientModel) session.get(ClientModel.class, idClient);
+            categoryModel = (CategoryModel) session.get(CategoryModel.class, idCategory);
             transaction.commit();
         } catch (HibernateException e) {
-            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar a categoria", e.toString());
         } finally {
             if (session != null) {
                 session.close();
             }
         }
 
-        return clientModel;
+        return categoryModel;
     }
 
-    public ClientModel searchByName(String nameClient) {
-        ClientModel clientModel = null;
+    public CategoryModel searchByName(String nameCategory) {
+        CategoryModel categoryModel = null;
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(ClientModel.class);
-            criteria.add(Restrictions.eq("name", nameClient));
-            clientModel = (ClientModel) criteria.uniqueResult();;
+            Criteria criteria = session.createCriteria(CategoryModel.class);
+            criteria.add(Restrictions.eq("name", nameCategory));
+            categoryModel = (CategoryModel) criteria.uniqueResult();;
         } catch (HibernateException e) {
-            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar a categoria", e.toString());
         } finally {
             if (session != null) {
                 session.close();
             }
         }
 
-        return clientModel;
+        return categoryModel;
     }
 
-    public List<ClientModel> searchByNameList(String nameClient) {
-        List<ClientModel> listClient = null;
+    public List<CategoryModel> searchByNameList(String nameCategory) {
+        List<CategoryModel> listCategory = null;
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(ClientModel.class);
-            criteria.add(Restrictions.eq("name", nameClient));
-            listClient = criteria.list();
+            Criteria criteria = session.createCriteria(CategoryModel.class);
+            criteria.add(Restrictions.eq("name", nameCategory));
+            listCategory = criteria.list();
         } catch (HibernateException e) {
-            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar a categoria", e.toString());
         } finally {
             if (session != null) {
                 session.close();
             }
         }
 
-        return listClient;
+        return listCategory;
     }
 
-    public List<ClientModel> searchAllClients() {
-        List<ClientModel> clientList = new ArrayList<>();
+    public List<CategoryModel> searchAllCategorys() {
+        List<CategoryModel> categoryList = new ArrayList<>();
         Session session = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
             session = sessionFactory.openSession();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<ClientModel> criteriaQuery = criteriaBuilder.createQuery(ClientModel.class);
-            criteriaQuery.from(ClientModel.class);
-            clientList = session.createQuery(criteriaQuery).getResultList();
+            CriteriaQuery<CategoryModel> criteriaQuery = criteriaBuilder.createQuery(CategoryModel.class);
+            criteriaQuery.from(CategoryModel.class);
+            categoryList = session.createQuery(criteriaQuery).getResultList();
 
         } catch (HibernateException e) {
-            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar o cliente", e.toString());
+            AlertPaneModel.getInstance().alertException("Erro ao Buscar", "O seguinte erro ocorreu ao tentar buscar a categoria", e.toString());
         } finally {
             session.close();
         }
-        return clientList;
+        return categoryList;
     }
 }

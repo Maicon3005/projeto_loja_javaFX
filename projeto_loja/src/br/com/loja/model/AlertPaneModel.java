@@ -80,4 +80,12 @@ public class AlertPaneModel {
             return false;
         }
     }
+    
+    public void alertException(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+    }
 }

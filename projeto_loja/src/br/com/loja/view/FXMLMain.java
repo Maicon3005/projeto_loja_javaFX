@@ -19,7 +19,7 @@ public class FXMLMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("FXMLProvider.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("FXMLClient.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();

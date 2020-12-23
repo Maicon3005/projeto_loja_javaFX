@@ -8,6 +8,7 @@ package br.com.loja.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 /**
@@ -35,7 +36,7 @@ public class Validate {
 
     //name validator
     public boolean validateName(TextField textField) {
-        pattern = Pattern.compile("^([A-Z]|[a-z]| ){3,}$");
+        pattern = Pattern.compile("^([\\p{L}]|[ ]){3,}$");
         matcher = pattern.matcher(textField.getText());
         boolean check = matcher.find();
         if (check) {
@@ -47,8 +48,7 @@ public class Validate {
     }
 
     public boolean validateName(String name) {
-        pattern = Pattern.compile("^([A-Z]|[a-z]| ){3,}$");
-        matcher = pattern.matcher(name);
+        pattern = Pattern.compile("^([\\p{L}]|[ ]){3,}$");
         return matcher.find();
     }
 
@@ -252,6 +252,18 @@ public class Validate {
             return check;
         }
         textField.setStyle(borderColorRed);
+        return check;
+    }
+
+    public boolean validateText(TextArea textArea) {
+        pattern = Pattern.compile("^(.*){3,}");
+        matcher = pattern.matcher(textArea.getText());
+        boolean check = matcher.find();
+        if (check) {
+            textArea.setStyle(borderColorGray);
+            return check;
+        }
+        textArea.setStyle(borderColorRed);
         return check;
     }
 
